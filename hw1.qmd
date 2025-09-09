@@ -1,0 +1,146 @@
+---
+title: "hw1"
+---
+
+
+# Research Question: How did home game attendance for the Detroit Lions change over the course of their best (2014) and worst (2008) seasons?
+
+
+```{r}
+# Get the Data
+
+attendance <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')
+standings <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/standings.csv')
+games <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/games.csv')
+
+# Or read in with tidytuesdayR package (https://github.com/dslc-io/tidytuesdayR)
+# PLEASE NOTE TO USE 2020 DATA YOU NEED TO UPDATE tidytuesdayR from GitHub
+
+# Either ISO-8601 date or year/week works!
+
+# Install via pak::pak("dslc-io/tidytuesdayR")
+
+tuesdata <- tidytuesdayR::tt_load('2020-02-04') 
+tuesdata <- tidytuesdayR::tt_load(2020, week = 6)
+
+
+attendance <- tuesdata$attendance
+```
+```{r}
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+# filtering attendance and standings data so we only have data on detroit lions
+lions_attendance <- attendance %>%
+  filter(team == "Detroit")
+
+lions_standings <- standings %>%
+  filter(team == "Detroit")
+
+# filtering new attendance and standings data so it only includes their best (2014) and worst (2008) seasons
+lions_best_worst_seasons <- lions_standings %>%
+  filter(year == 2008 | year == 2014)
+lions_best_worst_attendance <- lions_attendance %>%
+  filter(year == 2008 | year == 2014)
+
+# filtering games data to only include lions home games
+games <- games %>%
+  filter(home_team_name == "Lions")
+
+# filtering new games data to only include 2008 and 2014
+games <- games %>%
+  filter(year == 2008 | year == 2014)
+
+# filtering out non home game data from standings and attendance dataset
+lions_best_attendance <- lions_best_worst_attendance %>%
+   filter(year == 2014)
+lions_worst_attendance <- lions_best_worst_attendance %>%
+   filter(year == 2008)
+lions_best_attendance <- lions_best_attendance %>%
+   filter(week %in% c(1,3,5,7,10,13,14,15))
+lions_worst_attendance <- lions_worst_attendance %>%
+   filter(week %in% c(2,5,8,10,12,13,14,16))
+
+# code for best / worst seasons total home game attendance
+best_season_att <- lions_best_attendance %>%
+  select(year, home) %>%
+  group_by(year) %>%
+  summarise(total_attendance = sum(home))
+worst_season_att <- lions_worst_attendance %>%
+  select(year, home) %>%
+  group_by(year) %>%
+  summarise(total_attendance = sum(home))
+
+
+
+
+```
+ 
+```{r}
+# visualizations to answer research question
+
+ggplot() +
+  geom_col(data = best_season_att, 
+           aes(x = factor(year), y = total_attendance), 
+           fill = "steelblue") +
+  geom_col(data = worst_season_att, 
+           aes(x = factor(year), y = total_attendance), 
+           fill = "gray") +
+  scale_y_continuous(labels = comma) +
+  theme_classic() +
+  labs(
+    title = "Detroit Lions Home Attendance",
+    subtitle = "Total home attendance across the best (2014) and worst (2008) season",
+    x = "Season",
+    y = "Total Home Attendance"
+  )
+
+ggplot(lions_best_attendance, aes(x = week, y = weekly_attendance)) +
+  geom_line(color = "steelblue", linewidth = 1.2) +
+  geom_point(color = "black") +
+  theme_classic() +
+  labs(
+    title = "Detroit Lions Home Game Attendance (Best Season (11-5))",
+    subtitle = "Weekly home attendance across the season",
+    x = "Week of Season",
+    y = "Attendance"
+  )
+
+ggplot(lions_worst_attendance, aes(x = week, y = weekly_attendance)) +
+  geom_line(color = "gray", linewidth = 1.2) +
+  geom_point(color = "black") +
+  theme_classic() +
+  labs(
+    title = "Detroit Lions Home Game Attendance (Worst Season (0-16))",
+    subtitle = "Weekly home attendance across the season",
+    x = "Week of Season",
+    y = "Attendance"
+  )
+```
+ # The visualizations shown above demonstrate that the Detroit Lions had more home game attendees in the 2014 season when they went 11-5 than they did in their worst season, in which they lost all 16 of their games. The line graphs represent the week-by-week home game attendees for their best and worst seasons. Those visualizations demonstrate that during the 0 win season, attendance gradually decreased until week 12 and saw an abrupt increase and decrease in the coming weeks. In the winning season, attendance was larger all throughout the season, but saw the same decreases during different parts. During the middle chunk of the season (weeks 3-13) there was a gradual increase that was not seen during the losing season.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
