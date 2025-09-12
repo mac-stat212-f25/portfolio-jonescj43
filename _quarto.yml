@@ -45,7 +45,7 @@ book:
       # footer text
 
   sidebar:
-    title: "Your Name Here"
+    title: "Christian Jones"
     logo: assets/sidebar-logo.png
     logo-alt: "Random negative space illustration"
     collapse-level: 2
@@ -73,6 +73,10 @@ book:
       chapters:
       - src/ica/ica-sample1.qmd
       - src/ica/ica-sample2.qmd
+
+    - part: "Homeworks"
+      chapters:
+        - homeworks/hw1_files/hw1.qmd
 
   appendices:
   - src/appx/appx-sample1.qmd
