@@ -8,3 +8,5 @@
 
 ![0917-mind_map_.jpeg](0917-Mind-Map.jpeg)
 
+![0922-mind_map_.jpeg](0922-Mind-Map.jpeg)
+
