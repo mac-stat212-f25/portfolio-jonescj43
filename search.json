@@ -15,7 +15,7 @@
     "href": "mm/mm.html#creativity",
     "title": "Appendix C — Mind Maps",
     "section": "",
-    "text": "0905-mind_map_.jpeg\n\n\n\n\n\n0912-mind_map_.jpeg\n\n\n\n\n\n0917-mind_map_.jpeg\n\n\n\n\n\n0922-mind_map_.jpeg",
+    "text": "0905-mind_map_.jpeg\n\n\n\n\n\n0912-mind_map_.jpeg\n\n\n\n\n\n0917-mind_map_.jpeg\n\n\n\n\n\n0922-mind_map_.jpeg\n\n\n\n\n\n0928-mind_map_.jpeg\n\n\n\n\n\n0930-mind_map_.jpeg\n\n\n\n\n\n1003-mind_map_.jpeg",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>C</span>  <span class='chapter-title'>Mind Maps</span>"
@@ -43,25 +43,14 @@
     ]
   },
   {
-    "objectID": "src/tt/2025-07-08.html",
-    "href": "src/tt/2025-07-08.html",
-    "title": "TidyTuesday Sample 1",
+    "objectID": "homeworks/hw1_files/hw1.html",
+    "href": "homeworks/hw1_files/hw1.html",
+    "title": "hw1",
     "section": "",
-    "text": "Add content here",
+    "text": "Research Question: How did home game attendance for the Detroit Lions change over the course of their best (2014) and worst (2008) seasons?\n\nCode# Get the Data\n\nattendance &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')\nstandings &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/standings.csv')\ngames &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/games.csv')\n\n# Or read in with tidytuesdayR package (https://github.com/dslc-io/tidytuesdayR)\n# PLEASE NOTE TO USE 2020 DATA YOU NEED TO UPDATE tidytuesdayR from GitHub\n\n# Either ISO-8601 date or year/week works!\n\n# Install via pak::pak(\"dslc-io/tidytuesdayR\")\n\ntuesdata &lt;- tidytuesdayR::tt_load('2020-02-04') \ntuesdata &lt;- tidytuesdayR::tt_load(2020, week = 6)\n\n\nattendance &lt;- tuesdata$attendance\n\n\n\nCodelibrary(dplyr)\nlibrary(ggplot2)\nlibrary(scales)\n\n# filtering attendance and standings data so we only have data on detroit lions\nlions_attendance &lt;- attendance %&gt;%\n  filter(team == \"Detroit\")\n\nlions_standings &lt;- standings %&gt;%\n  filter(team == \"Detroit\")\n\n# filtering new attendance and standings data so it only includes their best (2014) and worst (2008) seasons\nlions_best_worst_seasons &lt;- lions_standings %&gt;%\n  filter(year == 2008 | year == 2014)\nlions_best_worst_attendance &lt;- lions_attendance %&gt;%\n  filter(year == 2008 | year == 2014)\n\n# filtering games data to only include lions home games\ngames &lt;- games %&gt;%\n  filter(home_team_name == \"Lions\")\n\n# filtering new games data to only include 2008 and 2014\ngames &lt;- games %&gt;%\n  filter(year == 2008 | year == 2014)\n\n# filtering out non home game data from standings and attendance dataset\nlions_best_attendance &lt;- lions_best_worst_attendance %&gt;%\n   filter(year == 2014)\nlions_worst_attendance &lt;- lions_best_worst_attendance %&gt;%\n   filter(year == 2008)\nlions_best_attendance &lt;- lions_best_attendance %&gt;%\n   filter(week %in% c(1,3,5,7,10,13,14,15))\nlions_worst_attendance &lt;- lions_worst_attendance %&gt;%\n   filter(week %in% c(2,5,8,10,12,13,14,16))\n\n# code for best / worst seasons total home game attendance\nbest_season_att &lt;- lions_best_attendance %&gt;%\n  select(year, home) %&gt;%\n  group_by(year) %&gt;%\n  summarise(total_attendance = sum(home))\nworst_season_att &lt;- lions_worst_attendance %&gt;%\n  select(year, home) %&gt;%\n  group_by(year) %&gt;%\n  summarise(total_attendance = sum(home))\n\n\n\nCode# visualizations to answer research question\n\nggplot() +\n  geom_col(data = best_season_att, \n           aes(x = factor(year), y = total_attendance), \n           fill = \"steelblue\") +\n  geom_col(data = worst_season_att, \n           aes(x = factor(year), y = total_attendance), \n           fill = \"gray\") +\n  scale_y_continuous(labels = comma) +\n  theme_classic() +\n  labs(\n    title = \"Detroit Lions Home Attendance\",\n    subtitle = \"Total home attendance across the best (2014) and worst (2008) season\",\n    x = \"Season\",\n    y = \"Total Home Attendance\"\n  )\n\n\n\n\n\n\nCodeggplot(lions_best_attendance, aes(x = week, y = weekly_attendance)) +\n  geom_line(color = \"steelblue\", linewidth = 1.2) +\n  geom_point(color = \"black\") +\n  theme_classic() +\n  labs(\n    title = \"Detroit Lions Home Game Attendance (Best Season (11-5))\",\n    subtitle = \"Weekly home attendance across the season\",\n    x = \"Week of Season\",\n    y = \"Attendance\"\n  )\n\n\n\n\n\n\nCodeggplot(lions_worst_attendance, aes(x = week, y = weekly_attendance)) +\n  geom_line(color = \"gray\", linewidth = 1.2) +\n  geom_point(color = \"black\") +\n  theme_classic() +\n  labs(\n    title = \"Detroit Lions Home Game Attendance (Worst Season (0-16))\",\n    subtitle = \"Weekly home attendance across the season\",\n    x = \"Week of Season\",\n    y = \"Attendance\"\n  )\n\n\n\n\n\n\n\n# The visualizations shown above demonstrate that the Detroit Lions had more home game attendees in the 2014 season when they went 11-5 than they did in their worst season, in which they lost all 16 of their games. The line graphs represent the week-by-week home game attendees for their best and worst seasons. Those visualizations demonstrate that during the 0 win season, attendance gradually decreased until week 12 and saw an abrupt increase and decrease in the coming weeks. In the winning season, attendance was larger all throughout the season, but saw the same decreases during different parts. During the middle chunk of the season (weeks 3-13) there was a gradual increase that was not seen during the losing season.",
     "crumbs": [
       "TidyTuesday",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>TidyTuesday Sample 1</span>"
-    ]
-  },
-  {
-    "objectID": "src/tt/2025-07-15.html",
-    "href": "src/tt/2025-07-15.html",
-    "title": "TidyTuesday Sample 2",
-    "section": "",
-    "text": "Add content here",
-    "crumbs": [
-      "TidyTuesday",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>TidyTuesday Sample 2</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>hw1</span>"
     ]
   },
   {
@@ -72,7 +61,7 @@
     "text": "Add content here",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>ICA Sample 1</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ICA Sample 1</span>"
     ]
   },
   {
@@ -83,18 +72,7 @@
     "text": "Add content here",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>ICA Sample 2</span>"
-    ]
-  },
-  {
-    "objectID": "homeworks/hw1_files/hw1.html",
-    "href": "homeworks/hw1_files/hw1.html",
-    "title": "hw1",
-    "section": "",
-    "text": "Research Question: How did home game attendance for the Detroit Lions change over the course of their best (2014) and worst (2008) seasons?\n\nCode# Get the Data\n\nattendance &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')\nstandings &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/standings.csv')\ngames &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/games.csv')\n\n# Or read in with tidytuesdayR package (https://github.com/dslc-io/tidytuesdayR)\n# PLEASE NOTE TO USE 2020 DATA YOU NEED TO UPDATE tidytuesdayR from GitHub\n\n# Either ISO-8601 date or year/week works!\n\n# Install via pak::pak(\"dslc-io/tidytuesdayR\")\n\ntuesdata &lt;- tidytuesdayR::tt_load('2020-02-04') \ntuesdata &lt;- tidytuesdayR::tt_load(2020, week = 6)\n\n\nattendance &lt;- tuesdata$attendance\n\n\n\nCodelibrary(dplyr)\nlibrary(ggplot2)\nlibrary(scales)\n\n# filtering attendance and standings data so we only have data on detroit lions\nlions_attendance &lt;- attendance %&gt;%\n  filter(team == \"Detroit\")\n\nlions_standings &lt;- standings %&gt;%\n  filter(team == \"Detroit\")\n\n# filtering new attendance and standings data so it only includes their best (2014) and worst (2008) seasons\nlions_best_worst_seasons &lt;- lions_standings %&gt;%\n  filter(year == 2008 | year == 2014)\nlions_best_worst_attendance &lt;- lions_attendance %&gt;%\n  filter(year == 2008 | year == 2014)\n\n# filtering games data to only include lions home games\ngames &lt;- games %&gt;%\n  filter(home_team_name == \"Lions\")\n\n# filtering new games data to only include 2008 and 2014\ngames &lt;- games %&gt;%\n  filter(year == 2008 | year == 2014)\n\n# filtering out non home game data from standings and attendance dataset\nlions_best_attendance &lt;- lions_best_worst_attendance %&gt;%\n   filter(year == 2014)\nlions_worst_attendance &lt;- lions_best_worst_attendance %&gt;%\n   filter(year == 2008)\nlions_best_attendance &lt;- lions_best_attendance %&gt;%\n   filter(week %in% c(1,3,5,7,10,13,14,15))\nlions_worst_attendance &lt;- lions_worst_attendance %&gt;%\n   filter(week %in% c(2,5,8,10,12,13,14,16))\n\n# code for best / worst seasons total home game attendance\nbest_season_att &lt;- lions_best_attendance %&gt;%\n  select(year, home) %&gt;%\n  group_by(year) %&gt;%\n  summarise(total_attendance = sum(home))\nworst_season_att &lt;- lions_worst_attendance %&gt;%\n  select(year, home) %&gt;%\n  group_by(year) %&gt;%\n  summarise(total_attendance = sum(home))\n\n\n\nCode# visualizations to answer research question\n\nggplot() +\n  geom_col(data = best_season_att, \n           aes(x = factor(year), y = total_attendance), \n           fill = \"steelblue\") +\n  geom_col(data = worst_season_att, \n           aes(x = factor(year), y = total_attendance), \n           fill = \"gray\") +\n  scale_y_continuous(labels = comma) +\n  theme_classic() +\n  labs(\n    title = \"Detroit Lions Home Attendance\",\n    subtitle = \"Total home attendance across the best (2014) and worst (2008) season\",\n    x = \"Season\",\n    y = \"Total Home Attendance\"\n  )\n\n\n\n\n\n\nCodeggplot(lions_best_attendance, aes(x = week, y = weekly_attendance)) +\n  geom_line(color = \"steelblue\", linewidth = 1.2) +\n  geom_point(color = \"black\") +\n  theme_classic() +\n  labs(\n    title = \"Detroit Lions Home Game Attendance (Best Season (11-5))\",\n    subtitle = \"Weekly home attendance across the season\",\n    x = \"Week of Season\",\n    y = \"Attendance\"\n  )\n\n\n\n\n\n\nCodeggplot(lions_worst_attendance, aes(x = week, y = weekly_attendance)) +\n  geom_line(color = \"gray\", linewidth = 1.2) +\n  geom_point(color = \"black\") +\n  theme_classic() +\n  labs(\n    title = \"Detroit Lions Home Game Attendance (Worst Season (0-16))\",\n    subtitle = \"Weekly home attendance across the season\",\n    x = \"Week of Season\",\n    y = \"Attendance\"\n  )\n\n\n\n\n\n\n\n# The visualizations shown above demonstrate that the Detroit Lions had more home game attendees in the 2014 season when they went 11-5 than they did in their worst season, in which they lost all 16 of their games. The line graphs represent the week-by-week home game attendees for their best and worst seasons. Those visualizations demonstrate that during the 0 win season, attendance gradually decreased until week 12 and saw an abrupt increase and decrease in the coming weeks. In the winning season, attendance was larger all throughout the season, but saw the same decreases during different parts. During the middle chunk of the season (weeks 3-13) there was a gradual increase that was not seen during the losing season.",
-    "crumbs": [
-      "Homeworks",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>hw1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>ICA Sample 2</span>"
     ]
   },
   {
