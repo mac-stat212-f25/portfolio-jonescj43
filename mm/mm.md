@@ -10,3 +10,8 @@
 
 ![0922-mind_map_.jpeg](0922-Mind-Map.jpeg)
 
+![0928-mind_map_.jpeg](0928-Mind-Map.jpeg)
+
+![0930-mind_map_.jpeg](0930-Mind-Map.jpeg)
+
+![1003-mind_map_.jpeg](1003-Mind-Map.jpeg)

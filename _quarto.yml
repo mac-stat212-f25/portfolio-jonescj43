@@ -66,8 +66,7 @@ book:
 
     - part: "TidyTuesday"
       chapters:
-      - src/tt/2025-07-08.qmd
-      - src/tt/2025-07-15.qmd
+      - homeworks/hw1_files/hw1.qmd
 
     - part: "In-Class Activities"
       chapters:
@@ -75,8 +74,12 @@ book:
       - src/ica/ica-sample2.qmd
 
     - part: "Homeworks"
-      chapters:
-        - homeworks/hw1_files/hw1.qmd
+      chapters: []
+
+
+    - part: "Exams"
+      chapters: []
+
 
   appendices:
   - src/appx/appx-sample1.qmd
