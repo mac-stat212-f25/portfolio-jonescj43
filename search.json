@@ -2,23 +2,23 @@
   {
     "objectID": "mm/mm.html",
     "href": "mm/mm.html",
-    "title": "Appendix D — Mind Maps",
+    "title": "Appendix C — Mind Maps",
     "section": "",
     "text": "Creativity",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Mind Maps</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Mind Maps</span>"
     ]
   },
   {
     "objectID": "mm/mm.html#creativity",
     "href": "mm/mm.html#creativity",
-    "title": "Appendix D — Mind Maps",
+    "title": "Appendix C — Mind Maps",
     "section": "",
     "text": "0905-mind_map_.jpeg\n\n\n\n\n\n0912-mind_map_.jpeg\n\n\n\n\n\n0917-mind_map_.jpeg\n\n\n\n\n\n0922-mind_map_.jpeg\n\n\n\n\n\n0928-mind_map_.jpeg\n\n\n\n\n\n0930-mind_map_.jpeg\n\n\n\n\n\n1003-mind_map_.jpeg",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Mind Maps</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Mind Maps</span>"
     ]
   },
   {
@@ -54,25 +54,80 @@
     ]
   },
   {
-    "objectID": "src/ica/ica-sample1.html",
-    "href": "src/ica/ica-sample1.html",
-    "title": "ICA Sample 1",
+    "objectID": "src/ica/16-databases-notes.html",
+    "href": "src/ica/16-databases-notes.html",
+    "title": "16 Databases and SQL",
     "section": "",
-    "text": "Add content here",
+    "text": "🧩 Learning Goals\nBy the end of this lesson, you should be able to: - Develop comfort in composing SQL queries - See the connections between tidyverse verbs and SQL clauses",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ICA Sample 1</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>16 Databases and SQL</span>"
     ]
   },
   {
-    "objectID": "src/ica/ica-sample2.html",
-    "href": "src/ica/ica-sample2.html",
-    "title": "ICA Sample 2",
-    "section": "",
-    "text": "Add content here",
+    "objectID": "src/ica/16-databases-notes.html#introduction",
+    "href": "src/ica/16-databases-notes.html#introduction",
+    "title": "16 Databases and SQL",
+    "section": "Introduction",
+    "text": "Introduction\nIf you find yourself analyzing data within a medium or large organization, you will probably draw on data stored within a centralized data warehouse.\nData warehouses contain vast collections of information–far more than a desktop or laptop computer can easily analyze.\nThese warehouses typically rely on structured data repositories called relational databases (also often called SQL databases).\nRelational databases store data in tables, which are structured with rows and columns (attributes). Tables can be joined using keys which uniquely identify a row within a table.",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>ICA Sample 2</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>16 Databases and SQL</span>"
+    ]
+  },
+  {
+    "objectID": "src/ica/16-databases-notes.html#connecting-to-a-database-in-r-with-dbi",
+    "href": "src/ica/16-databases-notes.html#connecting-to-a-database-in-r-with-dbi",
+    "title": "16 Databases and SQL",
+    "section": "Connecting to a database in R with DBI\n",
+    "text": "Connecting to a database in R with DBI\n\nThe DBI package (database interface) provides general tools for interacting with databases from R.\n\nIt is also common for data scientists to interact with databases directly by writing SQL queries. We’ll talk about this in the next section.\n\nFor now, we’ll use DBI to connect with an in-process database (duckdb), one that runs locally on your computer.\n\nA nice feature of duckdb is that even if your dataset is huge, duckdb can work with it very quickly.\n\nWe can set up a database connection with dbConnect() and initialize a temporary database with duckdb():\n\nCodecon &lt;- DBI::dbConnect(duckdb::duckdb())\nclass(con)\n\n[1] \"duckdb_connection\"\nattr(,\"package\")\n[1] \"duckdb\"\n\n\nIn a real project, we would use duckdb_read_csv() to store data directly into the duckdb database without first having to read it into R.\nIn the toy example below, we have a dataset on Spotify songs (all_spotify_songs.csv) and store in a database table called \"songs\":\n\nCodeduckdb_read_csv(con, \"songs\", \"https://hash-mac.github.io/stat212site-f25/relative/path/to/all_spotify_songs.csv\")\n\n\nHere, we’ll use datasets from the nycflights13 package.\nThe DBI package provides the dbWriteTable() function to write dataset objects (in constrast to csv files) to a database:\n\nCodedbWriteTable(con, \"flights\", nycflights13::flights)\ndbWriteTable(con, \"planes\", nycflights13::planes)\n\n\nWe can use tbl(), short for table, to create connections individually to the flights and planes datasets.\n\nCodeflights &lt;- tbl(con, \"flights\")\nplanes &lt;- tbl(con, \"planes\")\n\n\nNote that the results of tbl() are not quite the same as our normal data frames.\nAlthough they have class tbl, note that the number of rows is NA!\nThe full dataset isn’t loaded into memory when we use tbl, so the number of rows is unknown. This behavior is purposeful–it reduces computer resources and allows access to parts of the data only when needed.\n\nCodeclass(flights)\n\n[1] \"tbl_duckdb_connection\" \"tbl_dbi\"               \"tbl_sql\"              \n[4] \"tbl_lazy\"              \"tbl\"                  \n\nCodedim(flights)\n\n[1] NA 19",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>16 Databases and SQL</span>"
+    ]
+  },
+  {
+    "objectID": "src/ica/16-databases-notes.html#what-is-sql",
+    "href": "src/ica/16-databases-notes.html#what-is-sql",
+    "title": "16 Databases and SQL",
+    "section": "What is SQL?",
+    "text": "What is SQL?\nSQL stands for Structured Query Language.\nIt is a programming language to query or retrieve data from a relational database.",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>16 Databases and SQL</span>"
+    ]
+  },
+  {
+    "objectID": "src/ica/16-databases-notes.html#sql-with-dplyr",
+    "href": "src/ica/16-databases-notes.html#sql-with-dplyr",
+    "title": "16 Databases and SQL",
+    "section": "SQL with dplyr\n",
+    "text": "SQL with dplyr\n\nA really nice feature of dplyr is that we can write R code for wrangling the data and use show_query() to translate that code into SQL.\n\nCodeflights |&gt;\n    show_query()\n\n&lt;SQL&gt;\nSELECT *\nFROM flights\n\nCodeflights |&gt;\n    mutate(full_date = str_c(year, month, day, sep = \"-\")) |&gt;\n    show_query()\n\n&lt;SQL&gt;\nSELECT flights.*, CONCAT_WS('-', \"year\", \"month\", \"day\") AS full_date\nFROM flights\n\n\nExplore: Create a Google Document and share it with the people at your table. Using the code examples below, work with your group to co-create a dplyr&lt;-&gt; SQL translation guide (notes document) that allows you to answer the following:\n\nWhat do SELECT, FROM, WHERE, GROUP BY, and ORDER BY in SQL do? (These uppercase words are called clauses in SQL.)\n\nHow do these clauses translate to the main tidyverse verbs select, mutate, filter, arrange, summarize, group_by?\n\n\nWhat syntax differences are there for logical comparisons?\n\nHow do the & and | logical operators in R compare to SQL?\n\n\nHow does the R syntax for mutate translate to SQL?\nHow does joining datasets seem to work in SQL?\n\n\nCodeflights |&gt; \n    filter(dest == \"IAH\") |&gt; \n    arrange(dep_delay) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT flights.*\nFROM flights\nWHERE (dest = 'IAH')\nORDER BY dep_delay\n\nCodeflights |&gt; \n    filter(dest == \"IAH\") |&gt; \n    arrange(dep_delay) |&gt; \n    head(n = 10) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT flights.*\nFROM flights\nWHERE (dest = 'IAH')\nORDER BY dep_delay\nLIMIT 10\n\nCodeflights |&gt; \n    filter(dest == \"IAH\" & origin == \"JFK\") |&gt; \n    arrange(dep_delay) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT flights.*\nFROM flights\nWHERE (dest = 'IAH' AND origin = 'JFK')\nORDER BY dep_delay\n\nCodeflights |&gt; \n    filter(dest == \"IAH\" | origin == \"JFK\") |&gt; \n    arrange(year, month, day, desc(dep_delay)) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT flights.*\nFROM flights\nWHERE (dest = 'IAH' OR origin = 'JFK')\nORDER BY \"year\", \"month\", \"day\", dep_delay DESC\n\n\n\nCodeflights |&gt; \n    filter(dest %in% c(\"IAH\", \"HOU\")) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT flights.*\nFROM flights\nWHERE (dest IN ('IAH', 'HOU'))\n\nCodeflights |&gt; \n    filter(!is.na(dep_delay)) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT flights.*\nFROM flights\nWHERE (NOT((dep_delay IS NULL)))\n\n\n\nCodeplanes |&gt; \n    select(tailnum, type, manufacturer, model, year) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT tailnum, \"type\", manufacturer, model, \"year\"\nFROM planes\n\nCodeplanes |&gt; \n    select(tailnum, type, manufacturer, model, year) |&gt; \n    rename(year_built = year) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT tailnum, \"type\", manufacturer, model, \"year\" AS year_built\nFROM planes\n\n\n\nCodeflights |&gt; \n    mutate(\n        speed = distance / (air_time / 60)\n    ) |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT flights.*, distance / (air_time / 60.0) AS speed\nFROM flights\n\n\n\nCodeflights |&gt; \n    left_join(planes, by = \"tailnum\") |&gt; \n    show_query()\n\n&lt;SQL&gt;\nSELECT\n  flights.\"year\" AS \"year.x\",\n  \"month\",\n  \"day\",\n  dep_time,\n  sched_dep_time,\n  dep_delay,\n  arr_time,\n  sched_arr_time,\n  arr_delay,\n  carrier,\n  flight,\n  flights.tailnum AS tailnum,\n  origin,\n  dest,\n  air_time,\n  distance,\n  \"hour\",\n  \"minute\",\n  time_hour,\n  planes.\"year\" AS \"year.y\",\n  \"type\",\n  manufacturer,\n  model,\n  engines,\n  seats,\n  speed,\n  engine\nFROM flights\nLEFT JOIN planes\n  ON (flights.tailnum = planes.tailnum)",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>16 Databases and SQL</span>"
+    ]
+  },
+  {
+    "objectID": "src/ica/16-databases-notes.html#sql-practice",
+    "href": "src/ica/16-databases-notes.html#sql-practice",
+    "title": "16 Databases and SQL",
+    "section": "SQL Practice",
+    "text": "SQL Practice\nStack Exchange Data Explorer\nWe will experiment with the Stack Exchange Data Explorer, a website that provides a SQL interface for all the data in StackExchange.\nStackExchange powers the StackOverflow programming question and answer site, but it also powers question and answer sites related to 126 topics including English, Travel, Bicycles, and Parenting.\nStackExchange provides an in-depth Data Explorer Tutorial. We start with this interface to construct SQL queries on the Travel Data Explorer.\nInstructions\nHead to the Stack Exchange Data Explorer for Travel.\nYou will see a list of queries other users have created in the past. These queries are for all Stack Exchange sites, so some may not be relevant. Queries about your activity (for example, “How many upvotes do I have for each tag?”) will not be useful either if you do not have activity for the particular site.\nClick on one of them and you see the SQL code for the query.\nThen click the “Run Query” button to get results.\nFor example, you might look at the number of up vs down votes for questions and answers by weekday and notice that for questions, Tuesday has the highest up vs. down vote ratio and Saturday has the lowest. You can contemplate hypotheses for this difference!\nSelect Queries\nLet’s experiment with our own queries.\nClick on “Compose Query” in the upper right, and notice the tables are shown in the right.\nAs a reminder, a table is similar to a data frame.\n\nEach table lists the columns stored within the table and the data types for the columns.\nLook through the tables for Posts, Users, and Comments.\nDo the columns generally make sense, and correspond to the StackOverflow website?\n\nThere’s a description of the tables and columns (called a schema) available on StackExchange’s Meta Q&A Site.\nNow enter your first query in the text box and click the “Run Query” button:\n\nCodeSELECT TOP(100) Id, Title, Score, Body, Tags\nFROM Posts\n\n\nIn this query we already see several important features of SQL:\n\n\nSELECT tells SQL that a query is coming.\n\nTOP(100) only returns the first 100 rows.\n\nNote: The StackExchange data explorer uses a variant of SQL called Transact SQL that is supported by Microsoft databases. TOP(100) is a non-standard SQL feature supported by T-SQL. For most databases you would accomplish the same goal by adding LIMIT 100 to the end of the query.\n\n\n\nId, Title, Score, Body, Tags determines what columns are included in the result\n\nFROM Posts determines the source dataset.\n\nFrom glancing at the results, it appears that this table contains both questions and answers.\nLet’s try to focus on answers.\nLooking again at the Schema Description, notice that there is a PostTypeId column in Posts, and a value of 1 corresponds to questions.\nLet’s update our query to only include questions:\n\nCodeSELECT TOP(100)\nId, Title, Score, Body, Tags\nFROM Posts\nWHERE PostTypeId = 1\n\n\nThe SQL command WHERE is like the filter command we have been using in dplyr.\n\nNote that whereas we used the double equals == for comparison in R, the SQL WHERE command takes just a single =.\n\nExercise: Find the title and score of Posts that have a score of at least 110. Hint: TOP is not necessary here because you want all result rows.\n\nCodeSELECT Title, Score\nFROM Posts\nWHERE PostTypeId = 1 AND Score &gt;= 110\n\n\nExercise: Find posts whose title contains some place you are interested in (you pick!). Hint: use SQL’s LIKE operator.\n\nCodeSELECT Title, Score\nFROM Posts\nWHERE PostTypeId = 1 AND Title LIKE '%Paris%'\n\n\nNote that you can look up the actual webpage for any question using its Id.\nFor example, if the Id is 19591, the webpage URL would be https://travel.stackexchange.com/questions/19591/. Look up a few of the questions by their Id.\nIt’s unclear how the 100 questions we saw were selected from among the over 43,000 total questions.\n\nTo count the number of posts, we can use COUNT in SQL: SELECT COUNT(Id) FROM Posts Where PostTypeId = 1.\n\nLet’s try to arrange the Posts by score.\n\nCodeSELECT TOP(100)\nId, Title, Score, Body, Tags\nFROM Posts\nWHERE PostTypeId = 1\nORDER BY Score DESC\n\n\nThe ORDER BY ??? DESC syntax is similar to R’s arrange(). You can leave off the DESC if you want the results ordered smallest to largest.\nWe could also find the highest rated questions tagged “italy”:\n\nCodeSELECT TOP(100)\nId, Title, Score, Body, Tags\nFROM Posts\nWHERE PostTypeId = 1 AND Tags LIKE '%italy%'\nORDER BY Score DESC\n\n\nExercise: Pick two tags that interest you and you think will occur together and find the top voted posts that contain both.\n\nCodeSELECT Title, Score, Tags\nFROM Posts\n\n\n\nCodeWHERE PostTypeId = 1 AND Tags LIKE '%paris%' AND Tags LIKE '%france%'\n\n\nSQL Summarization\nSo far, we have covered the equivalent of R’s selecting, filtering, and arranging.\nLet’s take a look at grouping and summarizing now, which has similar structures in both R and SQL. Imagine we want to see how many posts of each type there are. This query shows us that there are 44K questions and 71K answers.\n\nCodeSELECT \nPostTypeId, COUNT(Id) numPosts\nFROM posts\nGROUP BY PostTypeId \nORDER BY PostTypeId\n\n\nNote two characteristics of SQL summarization here:\n\nThe GROUP BYclause indicates the table column for grouping, much like R’s group_by.\nThere is no explicit summarize. Instead, all columns that appear in the SELECT except for those listed in GROUP BY must make use of an aggregate function. COUNT(*) is one of these, and is the equivalent of R’s n(). Many other aggregate functions exist, including MAX, SUM, AVG, and many others. Every aggregate function requires a column as an argument (even COUNT() which doesn’t logically need one).\nThe aggregate column (in this case COUNT(Id)) must immediately be followed by a name that will be used for it in the results (in this case numPosts). This can be particularly useful if you want to order by the aggregated value.\n\nExercise: Change the previous query so it orders the result rows by the number of posts of that type. Hint: Reuse the name you assigned to the aggregate function.\n\nCodeSELECT \nPostTypeId, COUNT(Id) numPosts\nFROM posts\nGROUP BY PostTypeId \nORDER BY numPosts\n\n\nExercise: Find the most commonly used tagsets (sets/combinations of tags) applied to posts. Note that this is not asking you to count the most common individual tags — this would be more complex because multiple tags are squashed into the Tags field.\n\nCodeSELECT\nTags, COUNT(Tags) numTagsets\nFROM posts\nGROUP BY Tags\nORDER BY numTagsets\n\n\nSQL Joins\nFinally, as with R, we often want to join data from two or more tables. The types of joins in SQL are the same as we saw with R (inner, outer, left, right). Most commonly we want to perform an INNER join, which is the default if you just say JOIN. (We can look up the inner_join() documentation to remind ourselves what an inner join does.)\nLet’s say we wanted to enhance the earlier query to find the highest scoring answers with some information about each user.\n\nCodeSELECT TOP(100)\nTitle, Score, DisplayName, Reputation\nFROM Posts p\nJOIN Users u\nON p.OwnerUserId = u.Id\nWHERE PostTypeId = 1\nORDER BY Score Desc\n\n\nWe see a few notable items here:\n\nThe JOIN keyword must go in between the two tables we want to join.\nEach table must be named. In this case we named posts p and users u.\nWe need to specify the relationship that joins the two tables. In this case, a posts OwnerUserId column refers to the Id column in the users table.\n\nExercise: Create a query similar to the one above that identifies the authors of the top rated comments instead of posts.\n\nCodeSELECT TOP(100)\nText, Score, DisplayName, Reputation, AboutMe, Views, UpVotes, DownVotes\nFROM Comments c\nJOIN Users u\nON c.UserId = u.Id\nORDER BY Score Desc\n\n\nIf you want more practice, go to https://mystery.knightlab.com/.",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>16 Databases and SQL</span>"
+    ]
+  },
+  {
+    "objectID": "src/ica/16-databases-notes.html#going-beyond",
+    "href": "src/ica/16-databases-notes.html#going-beyond",
+    "title": "16 Databases and SQL",
+    "section": "Going Beyond",
+    "text": "Going Beyond\nExploring cloud DBMS’s\nRedshift is Amazon’s cloud database management system (DBMS).\n\nTo try out Redshift, you can sign up for a free AWS Educate account. Once your account is confirmed, you will have access to many tutorials about cloud computing.\nIn the Getting Started section of your AWS Educate main page, navigate to the Getting Started with Databases (Lab) tutorial on the second page of tutorials.\nVarious Redshift resources can be found here.\n\nBigQuery is Google’s DBMS.\n\nBigQuery can be tried for free through Big Query sandbox.\nOn the main BigQuery page you’ll see a big blue button that says “Try BigQuery free”.\nOn the cloud welcome page under the Products section, you’ll see a button for “Analyze and manage data - BigQuery”.\nAccessing public data within BigQuery\n\nIn your “Welcome to BigQuery Studio!” window, you’ll see a “Try the Google Trends Demo Query” section.\nClick the “Open this query” blue button to get an example SQL statement for the Google Trends dataset. You’ll also see on the left panel a list of all public datasets available through BigQuery. ## Done!\n\n\nCheck the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>16 Databases and SQL</span>"
     ]
   },
   {
@@ -95,17 +150,6 @@
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Appendix Sample 2</span>"
-    ]
-  },
-  {
-    "objectID": "src/appx/milestone1.html",
-    "href": "src/appx/milestone1.html",
-    "title": "Appendix C — Milestone 1: Proposal + Dataset",
-    "section": "",
-    "text": "Members: Christian Jones + Colin Matthews\nProject Description: This project aims to identify which American football statistics are most strongly associated with team success, as measured by overall record.\nResearch Questions:\n\nWhich team performance statistics are most strongly correlated with overall success in American football?\nAre offensive or defensive metrics more predictive of a team’s win–loss record?\nHow do situational factors (e.g., turnovers, third-down efficiency, red zone performance) influence a team’s likelihood of winning?\n\nProject Inspiration: Colin and I are both members of the Macalester College football team and share a strong interest in professional sports, both as athletes and as potential future career paths. This project gives us the opportunity to conduct research on a topic we’re passionate about—football performance and success—while also developing analytical and research skills that will strengthen our resumes and prepare us for potential careers in the sports industry.\nDataset: We are using the nflreadR and nflfastR packages in RStudio, which contain a wealth of team stats from the last 24 seasons.\nImplementation and Responsibility plan: This project will use publicly available NFL data from nflreadr to identify which team-level statistics best explain and predict game success between 2018–2024. The dataset will include team variables like total yards, passing yards, rushing yards, turnovers, and outcomes (win/loss, point differential). We may change these variables depending on what we talk about but we’re probably going to choose them using intuition. After cleaning and standardizing these features, we’ll perform some exploratory analysis and fit simple models to measure which stats most strongly influence winning probability. Results will be visualized through plots highlighting what we find to be key drivers in victory. The final project will hopefully communicate clear, data-backed insights into the fundamental factors that determine NFL team success.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Milestone 1: Proposal + Dataset</span>"
     ]
   }
 ]
