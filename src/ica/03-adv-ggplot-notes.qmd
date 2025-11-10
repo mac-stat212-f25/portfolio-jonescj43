@@ -123,10 +123,24 @@ Look at the [`geom_linerange` documentation page](https://ggplot2.tidyverse.org/
 ![SFO Weather Records in 2011](https://hash-mac.github.io/stat212site-f25/images/sfo_first_graph.png)
 
 ```{r weather_plot_temp_records}
-ggplot(weather) +
+# full code for all parts/layers of graph
+
+current_graph <- ggplot(weather) +
   geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ecebe3') +
+  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = "#C8B8BA") +
+  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = "#A90248") +
+  geom_vline(xintercept = )
   theme_classic()
+
 ```
+
+
+```{r}
+current_graph
+```
+
+
+
 
 ::: {.callout-tip title="Keyboard Shortcuts"}
 As you work on this plot, try to use some new [keyboard shortcuts](https://hash-mac.github.io/stat212site-f25/notes/keyboard.html). Focus on the following:
@@ -137,19 +151,11 @@ As you work on this plot, try to use some new [keyboard shortcuts](https://hash-
 :::
 
 
-
-
-
 ## Exercise 3
 
 In your visualization, also display the usual temperatures (`NormalLow` and `NormalHigh`) and actual 2011 temperatures (`Low` and `High`). Your plot should look like the one below. The hex code of the color used for the usual temperatures is `"#C8B8BA"` and for the color used for actual temperatures is `"#A90248"`.
 
 ![SFO observed, Average, and Record Daily Temperatures in 2011](https://hash-mac.github.io/stat212site-f25/images/sfo_second_graph.png)
-
-```{r weather_plot_temp_all}
-
-
-```
 
 
 ::: {.callout-tip title="Finer Control"}
@@ -160,13 +166,6 @@ If you'd like finer control of the width of these lines/rectangles, check out th
 ## Exercise 4
 
 Recreate the visual demarcations of the months by adding vertical lines separating the months.  Brainstorm how we might draw those vertical lines. What `geom` might we use?  What subset of the data might we use in that `geom` layer to draw lines only at the month divisions? 
-
-```{r }
-
-
-```
-
-
 
 ## Exercise 5
 
@@ -184,6 +183,7 @@ Try to figuring out this new challenge using search engines and LLMs:
 - **LLMs.** Use [ChatGPT](https://chat.openai.com/) or [Gemini](https://gemini.google.com/) with prompts that will most efficiently get you the desired results. Record the chat prompts used and output given. Evaluate the output. Do you fully understand the code generated? How can you tell that the generated code is correct?
 
 
+
 ## Exercise 6 
 
 Create a precipitation plot that looks like the following.  Note that 
@@ -196,6 +196,11 @@ Create a precipitation plot that looks like the following.  Note that
 
 
 ```{r weather_plot_precip}
+
+
+geom_ribbon
+ggplot(weather) +
+  geom_bar(aes(x = dateInYear, y = CulmPrec))
 
 ```
 ## Done!
