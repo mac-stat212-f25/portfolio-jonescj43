@@ -34,12 +34,12 @@
   {
     "objectID": "src/pv/pv-01.html",
     "href": "src/pv/pv-01.html",
-    "title": "Professional Viz Sample",
+    "title": "Professional Viz 1",
     "section": "",
-    "text": "Add content here",
+    "text": "Codelibrary(palmerpenguins)\nlibrary(ggplot2)\nlibrary(tidyverse)\nlibrary(dplyr)\n\n\n\nCodepenguins_clean &lt;- penguins %&gt;% \n  filter(!is.na(sex)) %&gt;%\n  filter(!is.na(bill_length_mm)) %&gt;%\n  filter(!is.na(body_mass_g))\n  \n\nggplot(penguins_clean, aes(x = bill_length_mm, y = body_mass_g, color = sex)) +\n  geom_point(alpha = 0.6, size = 3) +\n  facet_wrap(~ species) +\n  labs(\n    title = \"Sex Differences in Penguin Body Size and Bill Length\",\n    subtitle = \"Across three penguin species from 3 islands in the Palmer Archipelago, Antarctica\",\n    x = \"Bill Length (mm)\",\n    y = \"Body Mass (g)\",\n    color = \"Sex\"\n  ) +\n  theme_minimal(base_size = 11) +\n  theme(\n    plot.title = element_text(face = \"bold\"),\n    plot.subtitle = element_text(size = 9),\n    legend.position = \"bottom\",\n    panel.grid.minor = element_blank()\n  ) +\n  scale_color_manual(values = c(\"hotpink\", \"steelblue\"))",
     "crumbs": [
       "Prof Viz",
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Professional Viz Sample</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Professional Viz 1</span>"
     ]
   },
   {
