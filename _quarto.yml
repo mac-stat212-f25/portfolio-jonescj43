@@ -88,11 +88,11 @@ book:
 
 
     - part: "Exams"
-      chapters: []
+      chapters:
+      - src/appx/Exam_2_SS.jpg
 
 
   appendices:
-  - src/appx/Exam_2_SS.jpg
   - src/appx/appx-sample2.qmd
   - mm/mm.md
 
