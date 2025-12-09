@@ -15,3 +15,5 @@
 ![0930-mind_map_.jpeg](0930-Mind-Map.jpeg)
 
 ![1003-mind_map_.jpeg](1003-Mind-Map.jpeg)
+
+![1010-mind_map_.jpeg](1010-Mind-Map.jpg)
