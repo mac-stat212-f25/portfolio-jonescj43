@@ -96,7 +96,9 @@ str_view(string3)
 **Exercise:** Create the string `It's Thursday`. What happens if you put the string inside single quotes? Double quotes?
 
 ```{r ex_create_string}
-# Your code
+"It's Thursday"
+
+# 'It's Thursday'
 
 ```
 
@@ -116,7 +118,9 @@ Given that `\` is a special character, how can we put the `\` character in strin
 **Exercise:** Create the string `C:\Users`. What happens when you don't escape the `\`?
 
 ```{r ex_create_string_slash}
-# Your code
+"C:\\Users"
+
+# "C:\Users"
 ```
 
 
@@ -279,7 +283,8 @@ str_view(words, "[^aeiou]y[^aeiou]")
 **Exercise** Using the `words` data, find words that have two vowels in a row followed by an "m".
 
 ```{r ex_regex_classes}
-# Your code
+str_view(words, "[aeiou][aeiou]m")
+
 
 ```
 
@@ -296,7 +301,9 @@ str_view(fruit, "apple|melon|nut")
 **Exercise:** Using the `fruit` data, find fruits that have a repeated vowel ("aa", "ee", "ii", "oo", or "uu".)
 
 ```{r ex_regex_alternation}
-# Your code
+
+str_view(fruit, "aa|ee|ii|oo|uu")
+
 
 ```
 
@@ -310,7 +317,12 @@ str_view(fruit, "apple|melon|nut")
 **Exercise:** Using the `words` data, find (1) words that start with "y" and (2) words that don't start with "y".
 
 ```{r ex_regex_start_end_group}
-# Your code
+# Words that start with y
+str_view(words, "^y")
+
+# Words that don't start with y
+str_view(words, "^[^y]")
+
 
 
 ```
@@ -342,6 +354,26 @@ The following are core `stringr` functions that use regular expressions:
 **Exercise:** Starting from `str_count()`, explore each of these functions by pulling up the function documentation page and reading through the arguments. Try out each function using the `posts` data.
 
 ```{r}
+library(stringr)
+
+posts <- c(
+  "This is a  post about R programming.",
+  "I like data science!",
+  "How many times does the letter 'a' appear?",
+  "No vowels here: ttsk mmff"
+)
+
+str_count(posts, "a")
+
+str_detect(posts, "data")
+
+str_extract(posts, "\\b[aeiouAEIOU][a-zA-Z]+")
+
+str_extract_all(posts, "[aeiouAEIOU]")
+
+str_locate(posts, "[aeiouAEIOU]")
+
+str_match(posts, "^([A-Za-z]+)")
 
 ```
 
