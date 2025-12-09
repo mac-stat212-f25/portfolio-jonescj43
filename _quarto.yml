@@ -64,10 +64,6 @@ book:
       chapters:
       - src/pv/pv-01.qmd
 
-    - part: "TidyTuesday"
-      chapters:
-      - homeworks/hw1_files/hw1.qmd
-
     - part: "In-Class Activities"
       chapters:
       - src/ica/03-adv-ggplot-notes.qmd
@@ -84,16 +80,15 @@ book:
       - src/ica/16-databases-notes.qmd
 
     - part: "Homeworks"
-      chapters: []
+      chapters:
+      - homeworks/hw1_files/hw1.qmd
 
 
     - part: "Exams"
       chapters:
       - src/appx/Exam_2_SS.jpg
 
-
   appendices:
-  - src/appx/appx-sample2.qmd
   - mm/mm.md
 
 
