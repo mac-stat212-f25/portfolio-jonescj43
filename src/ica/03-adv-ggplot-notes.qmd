@@ -129,7 +129,6 @@ current_graph <- ggplot(weather) +
   geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = '#ecebe3') +
   geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = "#C8B8BA") +
   geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = "#A90248") +
-  geom_vline(xintercept = )
   theme_classic()
 
 ```
@@ -198,9 +197,6 @@ Create a precipitation plot that looks like the following.  Note that
 ```{r weather_plot_precip}
 
 
-geom_ribbon
-ggplot(weather) +
-  geom_bar(aes(x = dateInYear, y = CulmPrec))
 
 ```
 ## Done!
