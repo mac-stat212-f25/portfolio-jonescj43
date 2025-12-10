@@ -4,6 +4,8 @@
 
 ![0905-mind_map_.jpeg](0905-Mind-Map.jpeg)
 
+![0908-mind_map_.jpeg](0908-Mind-Map.jpg)
+
 ![0912-mind_map_.jpeg](0912-Mind-Map.jpg)
 
 ![0917-mind_map_.jpeg](0917-Mind-Map.jpeg)
