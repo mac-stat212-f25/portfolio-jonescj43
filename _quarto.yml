@@ -86,7 +86,7 @@ book:
 
     - part: "Exams"
       chapters:
-      - src/appx/Exam_2_SS.jpg
+      - exams/exams.md
 
   appendices:
   - mm/mm.md
