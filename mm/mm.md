@@ -20,4 +20,4 @@
 
 ![1024-mind_map_.jpeg](1022-Mind-Map.jpeg)
 
-![1027-mind_map_.jpeg](1027-Mind-Map.jpeg)
+![1027-mind_map_.jpeg](1027-Mind-Map.jpg)
